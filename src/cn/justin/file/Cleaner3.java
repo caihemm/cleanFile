@@ -1,43 +1,30 @@
 package cn.justin.file;
 
+import static java.util.stream.Collectors.groupingBy;
+
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
-public class Cleaner {
+public class Cleaner3 {
 
 	public static void main(String[] args) throws IOException {
 		String filePath = "E:\\ftp\\cpq\\64";
 
 		File originalFodler = new File(filePath);
-		String[] fileNames = originalFodler.list();
-		Arrays.parallelSort(fileNames, (a, b) -> b.compareTo(a));
+		File[] fileNames = originalFodler.listFiles();
+		Arrays.sort(fileNames,(a, b) -> b.compareTo(a));
 		List<String> toDelete = new ArrayList<String>();
 		String start = "null";
 		boolean stop = false;
 		String end = "_ALLBPS.pdf";
-		for (String s : fileNames) {
-
-			if (!s.startsWith(start)) {
-				int idx = s.indexOf("_", s.indexOf("_") + 1);
-				start = s.substring(0, idx);
-				stop = false;
-			} else {
-				if (!stop && s.endsWith(end)) {
-					stop = true;
-				}
-			}
-
-			if (stop) {
-				toDelete.add(s);
-
-			}
-
-		}
+		Stream<File> stream = Stream.of(fileNames);
+		 Map<Object, List<File>>  map=stream.collect(groupingBy(f->f.getName().substring(0, 34)));
 
 		System.out.println(fileNames.length);
 		System.out.println(toDelete.size());
