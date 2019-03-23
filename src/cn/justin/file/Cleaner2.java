@@ -13,7 +13,7 @@ import java.util.Map;
 public class Cleaner2 {
 
 	public static void main(String[] args) throws IOException {
-		String filePath = "E:\\ftp\\66";
+		String filePath = "E:\\ftp\\68";
 
 		File originalFodler = new File(filePath);
 		String[] fileNames = originalFodler.list();
@@ -41,14 +41,14 @@ public class Cleaner2 {
 		System.out.println(toDelete.size());
 
 
-		toDelete.parallelStream().forEach(s -> {
-			try {
-
-				Files.delete(Paths.get(filePath + "\\" + s));
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+//		toDelete.parallelStream().forEach(s -> {
+//			try {
+//
+//				Files.delete(Paths.get(filePath + "\\" + s));
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		});
 	}
 
 }

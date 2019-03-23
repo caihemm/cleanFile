@@ -11,7 +11,7 @@ import java.util.stream.Stream;
 public class Cleaner3 {
 
 	public static void main(String[] args) throws IOException {
-		String filePath = "E:\\ftp\\67";
+		String filePath = "E:\\ftp\\68";
 
 		File originalFodler = new File(filePath);
 		String[] fileNames = originalFodler.list();			
@@ -40,16 +40,16 @@ public class Cleaner3 {
 		System.out.println(fileNames.length);
 
 		System.out.println(keepList.size());
-
-		Stream.of(fileNames).parallel().forEach(s -> {
-			try {
-				if(!keepList.contains(s)) {
-					Files.delete(Paths.get(filePath + "\\" + s));
-				}				
-			} catch (IOException e) {
-				e.printStackTrace();
-			}
-		});
+//
+//		Stream.of(fileNames).parallel().forEach(s -> {
+//			try {
+//				if(!keepList.contains(s)) {
+//					Files.delete(Paths.get(filePath + "\\" + s));
+//				}				
+//			} catch (IOException e) {
+//				e.printStackTrace();
+//			}
+//		});
 	}
 
 }
