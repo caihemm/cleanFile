@@ -2,16 +2,15 @@ package cn.justin.file;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Stream;
 
 public class Cleaner {
 
 	public static void main(String[] args) throws IOException {
-		String filePath = "E:\\ftp\\cpq\\64";
+		String filePath = "E:\\ftp\\67";
 
 		File originalFodler = new File(filePath);
 		String[] fileNames = originalFodler.list();
@@ -41,6 +40,8 @@ public class Cleaner {
 
 		System.out.println(fileNames.length);
 		System.out.println(toDelete.size());
+		
+		//Stream.of(fileNames).forEach(s->System.out.println(s.substring(0, 30)));;
 
 //		toDelete.parallelStream().forEach(s -> {
 //			try {

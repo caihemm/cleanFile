@@ -1,43 +1,55 @@
 package cn.justin.file;
 
-import static java.util.stream.Collectors.groupingBy;
-
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 public class Cleaner3 {
 
 	public static void main(String[] args) throws IOException {
-		String filePath = "E:\\ftp\\cpq\\64";
+		String filePath = "E:\\ftp\\67";
 
 		File originalFodler = new File(filePath);
-		File[] fileNames = originalFodler.listFiles();
-		Arrays.sort(fileNames,(a, b) -> b.compareTo(a));
-		List<String> toDelete = new ArrayList<String>();
-		String start = "null";
-		boolean stop = false;
-		String end = "_ALLBPS.pdf";
-		Stream<File> stream = Stream.of(fileNames);
-		 Map<Object, List<File>>  map=stream.collect(groupingBy(f->f.getName().substring(0, 34)));
-
+		String[] fileNames = originalFodler.list();			
+		Stream<String> stream3 = Stream.of(fileNames);		
+		List<String> keepList=stream3.sorted((a,b)->b.compareTo(a)).collect(ArrayList::new, (r,t)->{
+			String[] ta = t.split("_");
+			if(r.size()==0) {
+				r.add(t);
+			}else {
+				String[] la=r.get(r.size()-1).split("_");
+				int i=0;
+				while(ta[i].equals(la[i])) {
+					i++;
+				}
+				if(i!=2) {
+					r.add(t);
+				}
+				
+			}
+		
+		},ArrayList::addAll);
+		
+	
+		
+		
 		System.out.println(fileNames.length);
-		System.out.println(toDelete.size());
 
-//		toDelete.parallelStream().forEach(s -> {
-//			try {
-//
-//				Files.delete(Paths.get(filePath + "\\" + s));
-//			} catch (IOException e) {
-//				// TODO Auto-generated catch block
-//				e.printStackTrace();
-//			}
-//		});
+		System.out.println(keepList.size());
+
+		Stream.of(fileNames).parallel().forEach(s -> {
+			try {
+				if(!keepList.contains(s)) {
+					Files.delete(Paths.get(filePath + "\\" + s));
+				}				
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 	}
 
 }
