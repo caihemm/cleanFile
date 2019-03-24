@@ -13,7 +13,7 @@ import java.util.Map;
 public class Cleaner2 {
 
 	public static void main(String[] args) throws IOException {
-		String filePath = "E:\\ftp\\68";
+		String filePath = args[0];
 
 		File originalFodler = new File(filePath);
 		String[] fileNames = originalFodler.list();
