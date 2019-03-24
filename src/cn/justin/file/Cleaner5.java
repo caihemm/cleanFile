@@ -8,17 +8,17 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
-import java.util.Map;
+import java.util.*;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 
 public class Cleaner5 {
-	static String max=null;
+
 
 	public static void main(String[] args) throws IOException, InterruptedException {
 		String filePath = args[0];
-
+	
 		File originalFodler = new File(filePath);
 		String[] fileNames = originalFodler.list();			
 
@@ -28,15 +28,12 @@ public class Cleaner5 {
 						Collectors.groupingBy(
 								t->t.substring(0,
 										t.indexOf("_",
-												t.indexOf("_")+1
-										)),
+												t.indexOf("_")+1)),
 								Collectors.groupingBy(
 										t->t.substring(0,
 												t.indexOf("_",
 														t.indexOf("_",
-																t.indexOf("_")+1
-																)+1
-												)))))
+																t.indexOf("_")+1)+1)))))
 				.entrySet().stream().flatMap(
 						p->{
 							Map<String,List<String>> map = p.getValue();
@@ -67,6 +64,8 @@ public class Cleaner5 {
 		System.out.println(keep.length);
 		System.out.println(deleteList.size());
 	}
+	
+
 	}
 	
 
