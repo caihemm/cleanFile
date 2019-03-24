@@ -20,29 +20,31 @@ public class Cleaner6 {
 		File originalFodler = new File(filePath);
 		String[] fileNames = originalFodler.list();
 
-		Object[] keep = Stream.of(fileNames)
-				.collect(Collectors.groupingBy(t -> t.split("_")[0], Collectors.groupingBy(t -> t.split("_")[2])))
+		List<String> keepList = Stream.of(fileNames)
+				.collect(Collectors.groupingBy(t -> t.split("_")[0], 
+						Collectors.groupingBy(t -> t.split("_")[2])))
 				.entrySet().stream().flatMap(p -> {
 					Map<String, List<String>> map = p.getValue();
 					String maxKey = Collections.max(map.keySet());
 					return map.get(maxKey).stream();
-				}).toArray();
+				}).collect(Collectors.toList());
 
 		List<String> deleteList = new ArrayList<String>();
 		Collections.addAll(deleteList, fileNames);
-		deleteList.removeAll(Arrays.asList(keep));
+		deleteList.removeAll(keepList);
 		
 		  
-		  deleteList.parallelStream() .forEach(a->{
-		  
-		  try { Files.delete(Paths.get(filePath + "\\" + a));
-		  
-		  } catch (IOException e) { e.printStackTrace(); } });
-		  
+		  deleteList.parallelStream().forEach(a->{		  
+			try {
+				Files.delete(Paths.get(filePath + "\\" + a));
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+		});
 		 
 
 		System.out.println(fileNames.length);
-		System.out.println(keep.length);
+		System.out.println(keepList.size());
 		System.out.println(deleteList.size());
 	}
 
